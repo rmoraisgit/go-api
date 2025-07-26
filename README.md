@@ -4,7 +4,10 @@ Este projeto é uma API simples desenvolvida em Go utilizando o framework [Gin](
 
 ## Descrição
 
-O código implementa um servidor HTTP que expõe um endpoint `/ping`. Quando acessado via requisição GET, o servidor responde com um JSON contendo a mensagem `"pong"`.
+O código implementa um servidor HTTP que expõe dois endpoints principais:
+
+- `/ping`: Retorna um JSON com a mensagem `"pong"`.
+- `/produtos`: Retorna uma lista de produtos em formato JSON.
 
 ## Como executar
 
@@ -64,12 +67,31 @@ select * from produto;
   }
   ```
 
+- `GET /produtos`  
+  **Resposta:**  
+  ```json
+  [
+    {
+      "id": 1,
+      "nome": "Produto A",
+      "preco": 10.0
+    },
+    {
+      "id": 2,
+      "nome": "Produto B",
+      "preco": 20.0
+    }
+  ]
+  ```
+
 ## Estrutura do Projeto
 
 - [`cmd/main.go`](cmd/main.go): Arquivo principal que inicializa e executa o servidor.
+- [`internal/controllers/produtos_controller.go`](internal/controllers/produtos_controller.go): Controller responsável pelo endpoint de produtos.
+- [`internal/models/produto.go`](internal/models/produto.go): Model que representa o produto.
 - [`docker-compose.yml`](docker-compose.yml): Arquivo de configuração para subir o PostgreSQL via Docker.
 
 ## Dependências
 
 - [Gin](https://github.com/gin-gonic/gin): Framework web para Go.
-- [PostgreSQL](https://www.postgresql.org/): Banco de dados relacional utilizado
+- [PostgreSQL](https://www.postgresql.org/): Banco de dados
