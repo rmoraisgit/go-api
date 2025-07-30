@@ -7,7 +7,7 @@ Este projeto é uma API simples desenvolvida em Go utilizando o framework [Gin](
 O código implementa um servidor HTTP que expõe dois endpoints principais:
 
 - `/ping`: Retorna um JSON com a mensagem `"pong"`.
-- `/produtos`: Retorna uma lista de produtos em formato JSON.
+- `/produtos`: Retorna uma lista de produtos em formato JSON, buscando os dados no banco PostgreSQL.
 
 ## Como executar
 
@@ -46,15 +46,15 @@ O projeto inclui um arquivo `docker-compose.yml` para facilitar a execução de 
 Após o banco estar rodando, conecte-se ao PostgreSQL (por exemplo, usando o DBeaver, TablePlus, ou o utilitário `psql`) e execute os comandos abaixo para criar a tabela e inserir um produto de exemplo:
 
 ```sql
-create table produto (
+create table produtos (
     id SERIAL primary key,
     nome varchar(50) not null,
     preco numeric(10, 2) not null
 );
 
-insert into produto(nome, preco) values ('iphone', 5000);
+insert into produtos(nome, preco) values ('iphone', 5000);
 
-select * from produto;
+select * from produtos;
 ```
 
 ## Endpoints
@@ -88,10 +88,11 @@ select * from produto;
 
 - [`cmd/main.go`](cmd/main.go): Arquivo principal que inicializa e executa o servidor.
 - [`internal/controllers/produtos_controller.go`](internal/controllers/produtos_controller.go): Controller responsável pelo endpoint de produtos.
-- [`internal/models/produto.go`](internal/models/produto.go): Model que representa o produto.
+- [`internal/models/produto.go`](internal/models/produto.go): Model que representa o produto (struct `Produto`).
+- [`internal/repositories/produtos_repository.go`](internal/repositories/produtos_repository.go): Repository responsável por acessar os dados dos produtos no banco.
 - [`docker-compose.yml`](docker-compose.yml): Arquivo de configuração para subir o PostgreSQL via Docker.
 
 ## Dependências
 
 - [Gin](https://github.com/gin-gonic/gin): Framework web para Go.
-- [PostgreSQL](https://www.postgresql.org/): Banco de dados
+- [PostgreSQL](https://www.postgresql.org/): Banco de dados relacional utilizado

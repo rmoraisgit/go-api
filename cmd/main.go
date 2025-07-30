@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"go-api/internal/controllers"
+	"go-api/internal/db"
+	"go-api/internal/repositories"
+	"go-api/internal/usecases"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +13,17 @@ import (
 func main() {
 
 	server := gin.Default()
-	produtosController := controllers.NewProdutosController()
+
+	dbConnection, err := db.ConnectDB()
+	if err != nil {
+		panic(err)
+	}
+
+	_produtosRepository := repositories.NewProdutosRepository(dbConnection)
+	_produtoUseCase := usecases.NewProdutosUseCase(_produtosRepository)
+
+	produtosController :=
+		controllers.NewProdutosController(_produtoUseCase)
 
 	server.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{

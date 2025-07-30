@@ -1,26 +1,29 @@
 package controllers
 
 import (
-	"go-api/internal/models"
+	"go-api/internal/usecases"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-type produtosController struct {
-	// Add any necessary fields or dependencies here
+type ProdutosController struct {
+	_produtoUseCase usecases.ProdutosUseCase
 }
 
-func NewProdutosController() produtosController {
-	return produtosController{}
+func NewProdutosController(produtoUseCase usecases.ProdutosUseCase) ProdutosController {
+	return ProdutosController{
+		_produtoUseCase: produtoUseCase,
+	}
 }
 
-func (p *produtosController) ObterProdutos(ctx *gin.Context) {
-	// Implement the logic to retrieve products
-	// This is a placeholder for demonstration purposes
-	products := []models.Product{
-		{Id: 1, Nome: "Produto A", Preco: 10.0},
-		{Id: 2, Nome: "Produto B", Preco: 20.0},
+func (p *ProdutosController) ObterProdutos(ctx *gin.Context) {
+
+	products, err := p._produtoUseCase.ObterProdutos()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err)
+		return
 	}
 
 	ctx.JSON(http.StatusOK, products)
