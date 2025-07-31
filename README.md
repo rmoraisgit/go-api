@@ -4,10 +4,11 @@ Este projeto é uma API simples desenvolvida em Go utilizando o framework [Gin](
 
 ## Descrição
 
-O código implementa um servidor HTTP que expõe dois endpoints principais:
+O código implementa um servidor HTTP que expõe endpoints para manipulação de produtos:
 
 - `/ping`: Retorna um JSON com a mensagem `"pong"`.
-- `/produtos`: Retorna uma lista de produtos em formato JSON, buscando os dados no banco PostgreSQL.
+- `/produtos` (GET): Retorna uma lista de produtos em formato JSON, buscando os dados no banco PostgreSQL.
+- `/produtos` (POST): Cria um novo produto no banco de dados a partir de um JSON enviado no corpo da requisição.
 
 ## Como executar
 
@@ -84,10 +85,27 @@ select * from produtos;
   ]
   ```
 
+- `POST /produtos`  
+  **Request Body:**  
+  ```json
+  {
+    "nome": "Produto Novo",
+    "preco": 99.99
+  }
+  ```
+  **Resposta:**  
+  ```json
+  {
+    "id": 3,
+    "nome": "Produto Novo",
+    "preco": 99.99
+  }
+  ```
+
 ## Estrutura do Projeto
 
 - [`cmd/main.go`](cmd/main.go): Arquivo principal que inicializa e executa o servidor.
-- [`internal/controllers/produtos_controller.go`](internal/controllers/produtos_controller.go): Controller responsável pelo endpoint de produtos.
+- [`internal/controllers/produtos_controller.go`](internal/controllers/produtos_controller.go): Controller responsável pelos endpoints de produtos.
 - [`internal/models/produto.go`](internal/models/produto.go): Model que representa o produto (struct `Produto`).
 - [`internal/repositories/produtos_repository.go`](internal/repositories/produtos_repository.go): Repository responsável por acessar os dados dos produtos no banco.
 - [`docker-compose.yml`](docker-compose.yml): Arquivo de configuração para subir o PostgreSQL via Docker.
@@ -95,4 +113,4 @@ select * from produtos;
 ## Dependências
 
 - [Gin](https://github.com/gin-gonic/gin): Framework web para Go.
-- [PostgreSQL](https://www.postgresql.org/): Banco de dados relacional utilizado
+- [PostgreSQL](https://www.postgresql.org/): Banco de dados relacional utilizado via

@@ -32,6 +32,7 @@ func main() {
 	})
 
 	server.GET("/produtos", produtosController.ObterProdutos)
+	server.POST("/produtos", produtosController.CriarProduto)
 
 	server.Run(":8080") // Run the server on port 8080
 	fmt.Printf("Server is running on http://localhost:8080")

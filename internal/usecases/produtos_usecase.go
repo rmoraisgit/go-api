@@ -19,3 +19,7 @@ func NewProdutosUseCase(produtoRepository repositories.ProdutosRepository) Produ
 func (p *ProdutosUseCase) ObterProdutos() ([]models.Product, error) {
 	return p._produtoRepository.ObterProdutos()
 }
+
+func (p *ProdutosUseCase) CriarProduto(produto models.Product) (models.Product, error) {
+	return p._produtoRepository.CriarProduto(produto)
+}
