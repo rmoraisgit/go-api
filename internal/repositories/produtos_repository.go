@@ -16,7 +16,7 @@ func NewProdutosRepository(connectionDb *sql.DB) ProdutosRepository {
 	}
 }
 
-func (p *ProdutosRepository) ObterProdutos() ([]models.Product, error) {
+func (p *ProdutosRepository) ObterProdutos() ([]models.Produto, error) {
 
 	query := "SELECT id, nome, preco FROM produtos"
 
@@ -24,59 +24,59 @@ func (p *ProdutosRepository) ObterProdutos() ([]models.Product, error) {
 
 	if err != nil {
 		fmt.Println("Error executing query:", err)
-		return []models.Product{}, err
+		return []models.Produto{}, err
 	}
 
-	var productList []models.Product
-	var productObj models.Product
+	var ProdutoList []models.Produto
+	var ProdutoObj models.Produto
 
 	for rows.Next() {
 		err = rows.Scan(
-			&productObj.Id,
-			&productObj.Nome,
-			&productObj.Preco)
+			&ProdutoObj.Id,
+			&ProdutoObj.Nome,
+			&ProdutoObj.Preco)
 
 		if err != nil {
 			fmt.Println(err)
-			return []models.Product{}, err
+			return []models.Produto{}, err
 		}
 
-		productList = append(productList, productObj)
+		ProdutoList = append(ProdutoList, ProdutoObj)
 	}
 
 	rows.Close()
 
-	return productList, nil
+	return ProdutoList, nil
 }
 
-func (p *ProdutosRepository) CriarProduto(produto models.Product) (models.Product, error) {
+func (p *ProdutosRepository) CriarProduto(produto models.Produto) (models.Produto, error) {
 
 	query := "INSERT INTO produtos (nome, preco) VALUES ($1, $2) RETURNING id, nome, preco"
 
 	err := p._connectionDb.QueryRow(query, produto.Nome, produto.Preco).Scan(&produto.Id, &produto.Nome, &produto.Preco)
 
 	if err != nil {
-		fmt.Println("Error inserting product:", err)
-		return models.Product{}, err
+		fmt.Println("Error inserting Produto:", err)
+		return models.Produto{}, err
 	}
 
 	return produto, nil
 }
 
-func (p *ProdutosRepository) ObterProdutoPorId(id int) (models.Product, error) {
+func (p *ProdutosRepository) ObterProdutoPorId(id int) (models.Produto, error) {
 
 	query := "SELECT id, nome, preco FROM produtos WHERE id = $1"
 
-	var produto models.Product
+	var produto models.Produto
 
 	err := p._connectionDb.QueryRow(query, id).Scan(&produto.Id, &produto.Nome, &produto.Preco)
 
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return models.Product{}, nil // Produto não encontrado
+			return models.Produto{}, nil // Produto não encontrado
 		}
-		fmt.Println("Error fetching product by ID:", err)
-		return models.Product{}, nil
+		fmt.Println("Error fetching Produto by ID:", err)
+		return models.Produto{}, nil
 	}
 
 	return produto, nil

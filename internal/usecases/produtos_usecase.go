@@ -16,14 +16,14 @@ func NewProdutosUseCase(produtoRepository repositories.ProdutosRepository) Produ
 	}
 }
 
-func (p *ProdutosUseCase) ObterProdutos() ([]models.Product, error) {
+func (p *ProdutosUseCase) ObterProdutos() ([]models.Produto, error) {
 	return p._produtoRepository.ObterProdutos()
 }
 
-func (p *ProdutosUseCase) CriarProduto(produto models.Product) (models.Product, error) {
+func (p *ProdutosUseCase) CriarProduto(produto models.Produto) (models.Produto, error) {
 	return p._produtoRepository.CriarProduto(produto)
 }
 
-func (p *ProdutosUseCase) ObterProdutoPorId(id int) (models.Product, error) {
+func (p *ProdutosUseCase) ObterProdutoPorId(id int) (models.Produto, error) {
 	return p._produtoRepository.ObterProdutoPorId(id)
 }

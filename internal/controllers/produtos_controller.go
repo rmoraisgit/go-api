@@ -33,7 +33,7 @@ func (p *ProdutosController) ObterProdutos(ctx *gin.Context) {
 
 func (p *ProdutosController) CriarProduto(ctx *gin.Context) {
 
-	var produto models.Product
+	var produto models.Produto
 
 	err := ctx.ShouldBindJSON(&produto)
 	if err != nil {
@@ -71,7 +71,7 @@ func (p *ProdutosController) ObterProdutoPorId(ctx *gin.Context) {
 		return
 	}
 
-	produtoVazio := models.Product{}
+	produtoVazio := models.Produto{}
 
 	if produto == produtoVazio {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "Produto não encontrado"})
