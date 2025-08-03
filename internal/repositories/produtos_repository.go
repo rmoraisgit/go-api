@@ -62,3 +62,22 @@ func (p *ProdutosRepository) CriarProduto(produto models.Product) (models.Produc
 
 	return produto, nil
 }
+
+func (p *ProdutosRepository) ObterProdutoPorId(id string) (models.Product, error) {
+
+	query := "SELECT id, nome, preco FROM produtos WHERE id = $1"
+
+	var produto models.Product
+
+	err := p._connectionDb.QueryRow(query, id).Scan(&produto.Id, &produto.Nome, &produto.Preco)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return models.Product{}, nil // Produto não encontrado
+		}
+		fmt.Println("Error fetching product by ID:", err)
+		return models.Product{}, nil
+	}
+
+	return produto, nil
+}

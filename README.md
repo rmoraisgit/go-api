@@ -9,6 +9,7 @@ O código implementa um servidor HTTP que expõe endpoints para manipulação de
 - `/ping`: Retorna um JSON com a mensagem `"pong"`.
 - `/produtos` (GET): Retorna uma lista de produtos em formato JSON, buscando os dados no banco PostgreSQL.
 - `/produtos` (POST): Cria um novo produto no banco de dados a partir de um JSON enviado no corpo da requisição.
+- `/produtos/:id` (GET): Retorna um produto específico pelo ID.
 
 ## Como executar
 
@@ -102,6 +103,17 @@ select * from produtos;
   }
   ```
 
+- `GET /produtos/:id`  
+  Retorna um produto específico pelo ID.  
+  **Exemplo de resposta:**  
+  ```json
+  {
+    "id": 1,
+    "nome": "Produto A",
+    "preco": 10.0
+  }
+  ```
+
 ## Estrutura do Projeto
 
 - [`cmd/main.go`](cmd/main.go): Arquivo principal que inicializa e executa o servidor.
@@ -113,4 +125,4 @@ select * from produtos;
 ## Dependências
 
 - [Gin](https://github.com/gin-gonic/gin): Framework web para Go.
-- [PostgreSQL](https://www.postgresql.org/): Banco de dados relacional utilizado via
+- [PostgreSQL](https://www.postgresql.org/): Banco de dados relacional utilizado

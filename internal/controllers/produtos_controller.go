@@ -48,3 +48,23 @@ func (p *ProdutosController) CriarProduto(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, produtoCriado)
 }
+
+func (p *ProdutosController) ObterProdutoPorId(ctx *gin.Context) {
+
+	id := ctx.Param("id")
+
+	produto, err := p._produtoUseCase.ObterProdutoPorId(id)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	produtoVazio := models.Product{}
+
+	if produto == produtoVazio {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, produto)
+}
