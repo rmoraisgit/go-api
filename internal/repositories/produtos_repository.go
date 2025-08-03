@@ -63,7 +63,7 @@ func (p *ProdutosRepository) CriarProduto(produto models.Product) (models.Produc
 	return produto, nil
 }
 
-func (p *ProdutosRepository) ObterProdutoPorId(id string) (models.Product, error) {
+func (p *ProdutosRepository) ObterProdutoPorId(id int) (models.Product, error) {
 
 	query := "SELECT id, nome, preco FROM produtos WHERE id = $1"
 

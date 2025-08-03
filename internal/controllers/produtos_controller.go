@@ -3,6 +3,7 @@ package controllers
 import (
 	"go-api/internal/models"
 	"go-api/internal/usecases"
+	"strconv"
 
 	"net/http"
 
@@ -36,7 +37,7 @@ func (p *ProdutosController) CriarProduto(ctx *gin.Context) {
 
 	err := ctx.ShouldBindJSON(&produto)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Entrada inválida"})
 		return
 	}
 
@@ -53,7 +54,18 @@ func (p *ProdutosController) ObterProdutoPorId(ctx *gin.Context) {
 
 	id := ctx.Param("id")
 
-	produto, err := p._produtoUseCase.ObterProdutoPorId(id)
+	if id == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Campo id é requerido"})
+		return
+	}
+
+	idRecebidoRequisicao, err := strconv.Atoi(id)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Campo id deve ser um número"})
+		return
+	}
+
+	produto, err := p._produtoUseCase.ObterProdutoPorId(idRecebidoRequisicao)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err)
 		return
@@ -62,7 +74,7 @@ func (p *ProdutosController) ObterProdutoPorId(ctx *gin.Context) {
 	produtoVazio := models.Product{}
 
 	if produto == produtoVazio {
-		ctx.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "Produto não encontrado"})
 		return
 	}
 
